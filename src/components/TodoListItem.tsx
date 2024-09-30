@@ -28,7 +28,7 @@ const TodoListItem = ({ todo }: TodoListItemProps) => {
   };
 
   return (
-    <div className="flex gap-4 border-gray-200 border-2 p-5 shadow-sm rounded-lg bg-white">
+    <div className="flex gap-3 sm:gap-4 border-gray-200 border-2 p-4 sm:p-5 shadow-sm rounded-lg bg-white">
       {todo.isEditing ? (
         <TodoEditForm todo={todo} />
       ) : (
@@ -44,7 +44,9 @@ const TodoListItem = ({ todo }: TodoListItemProps) => {
           <div className="flex flex-col gap-4 w-full">
             <h2
               className={`${
-                todo.completed ? "line-through text-xl opacity-20" : "text-xl"
+                todo.completed
+                  ? "line-through text-lg sm:text-xl opacity-20"
+                  : "text-lg sm:text-xl"
               }`}
             >
               {todo.text}
