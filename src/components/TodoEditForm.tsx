@@ -27,7 +27,7 @@ const TodoEditForm = ({ todo }: TodoEditFormProps) => {
   };
 
   return (
-    <div className="edit sm:flex-row md:flex gap-5 w-full">
+    <div className="flex flex-col sm:flex-row gap-3 sm:gap-5 w-full">
       <input
         value={newText}
         onChange={(e) => setNewText(e.target.value)}
@@ -35,7 +35,7 @@ const TodoEditForm = ({ todo }: TodoEditFormProps) => {
         className="form-input rounded-md px-4 w-full border-gray-200"
         aria-label="Edit TODO"
       />
-      <div className="edit-actions flex gap-3 mt-4 md:mt-0">
+      <div className="edit-actions flex gap-3">
         <a
           onClick={handleSave}
           href="#"

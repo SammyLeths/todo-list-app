@@ -16,7 +16,10 @@ const TodoForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-5 w-full">
+    <form
+      onSubmit={handleSubmit}
+      className="flex gap-3 sm:gap-5 w-full flex-col sm:flex-row"
+    >
       <input
         value={todoText}
         onChange={(e) => setTodoText(e.target.value)}
