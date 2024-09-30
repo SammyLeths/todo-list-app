@@ -1,0 +1,75 @@
+import { useDispatch } from "react-redux";
+import { toggleComplete, setEditing, deleteTodo } from "../redux/todoSlice";
+
+import TodoEditForm from "./TodoEditForm";
+
+interface TodoListItemProps {
+  todo: {
+    id: number;
+    text: string;
+    completed: boolean;
+    isEditing: boolean;
+  };
+}
+
+const TodoListItem = ({ todo }: TodoListItemProps) => {
+  const dispatch = useDispatch();
+
+  const handleToggleComplete = () => {
+    dispatch(toggleComplete(todo.id));
+  };
+
+  const handleEdit = () => {
+    dispatch(setEditing({ id: todo.id, isEditing: true }));
+  };
+
+  const handleDelete = () => {
+    dispatch(deleteTodo(todo.id));
+  };
+
+  return (
+    <div className="flex gap-4 border-gray-200 border-2 p-5 shadow-sm rounded-lg bg-white">
+      {todo.isEditing ? (
+        <TodoEditForm todo={todo} />
+      ) : (
+        <>
+          <input
+            checked={todo.completed}
+            onChange={handleToggleComplete}
+            type="checkbox"
+            className="w-6 h-6 form-checkbox rounded border-slate-300 mt-1 focus:ring-0"
+            aria-label="Complete"
+          />
+
+          <div className="flex flex-col gap-4 w-full">
+            <h2
+              className={`${
+                todo.completed ? "line-through text-xl opacity-20" : "text-xl"
+              }`}
+            >
+              {todo.text}
+            </h2>
+            <div className="actions flex gap-3">
+              <a
+                onClick={handleEdit}
+                href="#"
+                className="px-5 py-2 bg-sky-500 text-white hover:bg-sky-700 rounded-md"
+              >
+                Edit
+              </a>
+              <a
+                onClick={handleDelete}
+                href="#"
+                className="px-5 py-2 bg-red-300 text-white hover:bg-red-400 rounded-md"
+              >
+                Delete
+              </a>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
+export default TodoListItem;
