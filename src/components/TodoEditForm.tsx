@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
-import { editTodo, setEditing } from "../redux/todoSlice";
+import { setEditing, editTodoWithNotification } from "../redux/todoSlice";
+import { AppDispatch } from "../redux/store";
 import { useState } from "react";
 
 interface TodoEditFormProps {
@@ -13,11 +14,11 @@ interface TodoEditFormProps {
 
 const TodoEditForm = ({ todo }: TodoEditFormProps) => {
   const [newText, setNewText] = useState(todo.text);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleSave = () => {
     if (newText.trim()) {
-      dispatch(editTodo({ id: todo.id, newText }));
+      dispatch(editTodoWithNotification(todo.id, newText));
       dispatch(setEditing({ id: todo.id, isEditing: false }));
     }
   };

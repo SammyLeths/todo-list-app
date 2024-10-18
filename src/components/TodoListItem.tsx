@@ -1,5 +1,11 @@
 import { useDispatch } from "react-redux";
-import { toggleComplete, setEditing, deleteTodo } from "../redux/todoSlice";
+import { AppDispatch } from "../redux/store";
+//import { toggleComplete, setEditing, deleteTodo } from "../redux/todoSlice";
+import {
+  setEditing,
+  toggleCompleteWithNotification,
+  deleteTodoWithNotification,
+} from "../redux/todoSlice";
 
 import TodoEditForm from "./TodoEditForm";
 
@@ -13,10 +19,10 @@ interface TodoListItemProps {
 }
 
 const TodoListItem = ({ todo }: TodoListItemProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleToggleComplete = () => {
-    dispatch(toggleComplete(todo.id));
+    dispatch(toggleCompleteWithNotification(todo.id, todo.completed));
   };
 
   const handleEdit = () => {
@@ -24,7 +30,7 @@ const TodoListItem = ({ todo }: TodoListItemProps) => {
   };
 
   const handleDelete = () => {
-    dispatch(deleteTodo(todo.id));
+    dispatch(deleteTodoWithNotification(todo.id));
   };
 
   return (

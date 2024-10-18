@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addTodo } from "../redux/todoSlice";
+import { AppDispatch } from "../redux/store";
+import { addTodoWithNotification } from "../redux/todoSlice";
 
 const TodoForm = () => {
   const [todoText, setTodoText] = useState("");
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (todoText.trim()) {
-      dispatch(addTodo(todoText));
+      dispatch(addTodoWithNotification(todoText));
       setTodoText("");
     }
   };

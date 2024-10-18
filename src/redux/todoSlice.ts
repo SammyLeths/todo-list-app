@@ -1,4 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AppDispatch } from "./store";
+import { showNotification } from "./notificationSlice";
 
 export interface Todo {
   id: number;
@@ -23,14 +25,8 @@ const todoSlice = createSlice({
   name: "todos",
   initialState,
   reducers: {
-    addTodo: (state, action: PayloadAction<string>) => {
-      const newTodo: Todo = {
-        id: Date.now(),
-        text: action.payload,
-        completed: false,
-        isEditing: false,
-      };
-      state.todos.unshift(newTodo);
+    addTodo: (state, action: PayloadAction<Todo>) => {
+      state.todos.unshift(action.payload);
       saveToLocalStorage(state.todos);
     },
     toggleComplete: (state, action: PayloadAction<number>) => {
@@ -71,3 +67,50 @@ export const { addTodo, toggleComplete, setEditing, editTodo, deleteTodo } =
   todoSlice.actions;
 
 export default todoSlice.reducer;
+
+// Thunk functions
+export const addTodoWithNotification =
+  (text: string) => (dispatch: AppDispatch) => {
+    const newTodo: Todo = {
+      id: Date.now(),
+      text,
+      completed: false,
+      isEditing: false,
+    };
+
+    dispatch(addTodo(newTodo));
+    dispatch(
+      showNotification({ message: "TODO added successfully!", type: "success" })
+    );
+  };
+
+export const toggleCompleteWithNotification =
+  (id: number, completed: boolean) => (dispatch: AppDispatch) => {
+    dispatch(toggleComplete(id));
+    const message = !completed
+      ? "TODO marked as completed"
+      : "TODO marked as incomplete";
+    dispatch(showNotification({ message, type: "success" }));
+  };
+
+export const editTodoWithNotification =
+  (id: number, newText: string) => (dispatch: AppDispatch) => {
+    dispatch(editTodo({ id, newText }));
+    dispatch(
+      showNotification({
+        message: "TODO updated successfully!",
+        type: "success",
+      })
+    );
+  };
+
+export const deleteTodoWithNotification =
+  (id: number) => (dispatch: AppDispatch) => {
+    dispatch(deleteTodo(id));
+    dispatch(
+      showNotification({
+        message: "TODO deleted successfully!",
+        type: "success",
+      })
+    );
+  };
